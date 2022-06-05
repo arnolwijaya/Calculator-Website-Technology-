@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calculator </title>
+        <!-- LINK BOOTSTRAP -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- LINK BOOTSTRAP -->
+        <script>
+            $(document).ready(function() {
+                var a = "";
+                var angka="";
+                var hasil = "";
+                var input = "";
+                var reset = false;
+                $("button").click(function() {    
+                    input = $(this).attr("nilai");     
+                    if (input === "ac") {
+                        input=0;
+                        a=0;
+                        hasil=0;
+                        angka=0;
+                        $('#hasil p').html(input);
+                        $('#proses p').html(a);  
+                    }
+                    else if (input === "ce") {
+                        if (a.length > 1) {
+                            a = a.slice(0, -1);        
+                            $('#proses p').html(a);
+                        }
+                        else {
+                            a = 0;  
+                            $('#hasil p').html(0);
+                        }
+                        $('#proses p').html(a);
+                        if (angka.length > 1) {
+                            angka = angka.slice(0, -1);        
+                            $('#hasil p').html(angka);  
+                        }
+                        else {
+                            angka = 0;  
+                            $('#hasil p').html(0);
+                        }
+                    }
+                    else if (input === "=") {
+                        hasil = eval(a);
+                        $('#hasil p').html(hasil); 
+                        a += "="+hasil;
+                        $('#proses p').html(a);
+                        a = hasil;
+                        input = hasil;
+                        angka = hasil;
+                        reset = true;
+                    }
+                    else if (isNaN(input)) {
+                        if (input !== ".") {     
+                            reset = false;       
+                            if (angka === 0 || a === 0) { 
+                                angka = 0;
+                                a = input;         
+                            }
+                            else {
+                                angka = "";
+                                a += input;
+                            }     
+                            $('#proses p').html(a); 
+                        }
+                        else if (angka.indexOf(".") === -1) { 
+                            reset = false;
+                            if (angka === 0 || a === 0) { 
+                                angka = 0.;
+                                a = 0.;           
+                            }
+                            else {
+                                angka += input;
+                                a += input;        
+                            }
+                            $('#hasil p').html(angka);
+                            $('#proses p').html(a);        
+                        }      
+                    }
+                    else {  
+                        if (reset) {
+                            a = input;
+                            angka = input;       
+                            reset = false;
+                        }
+                        else {
+                            a += input; 
+                            angka += input;        
+                            }
+                            $('#proses p').html(a); 
+                            $('#hasil p').html(angka);
+                        }   
+                    if (angka.length > 10 || a.length > 26) {
+                        $("#hasil p").html("0");
+                        $("#proses p").html("Too many digits");
+                        angka ="";
+                        a="";
+                        hasil ="";
+                        reset=true;
+                    }
+                    if (hasil.indexOf(".") !== -1) {
+                        hasil = hasil.truncate()
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="background" style="background-color:lightblue; padding-top: 100px;">
+            <div class="container card" style="width : 280px; background-color:grey">
+                <h1 style="text-align:center; color: white;">Calculator</h1>
+                <div id="calc" class="text-center">
+                    <div id="display" style="background-color: white;">
+                        <div id="hasil" style="font-size: 30pt;"><p>0</p></div>
+                        <div id="proses"><p>0</p></div>
+                    </div>
+                    <div id="keyboard">
+                        <div class="row py-1">
+                            <div class ="col-6"><button class="btn btn-danger" nilai="ac">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></div>
+                            <div class ="col-6"><button class="btn btn-danger" nilai="ce">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></div>
+                        </div>
+                        <div class="row py-1">
+                            <div class ="col-3"><button class="btn btn-dark" nilai="7">&nbsp;7&nbsp;</button></div>
+                            <div class ="col-3"><button class="btn btn-dark" nilai="8">&nbsp;8&nbsp;</button></div>
+                            <div class ="col-3"><button class="btn btn-dark" nilai="9">&nbsp;9&nbsp;</button></div>
+                            <div class ="col-3"><button class="btn btn-info" nilai="/">&nbsp;/&nbsp;&nbsp;</button></div>
+                        </div>
+                        <div class="row py-1">
+                            <div class ="col-3"><button class="btn btn-dark" nilai="4">&nbsp;4&nbsp;</button></div>
+                            <div class ="col-3"><button class="btn btn-dark" nilai="5">&nbsp;5&nbsp;</button></div>
+                            <div class ="col-3"><button class="btn btn-dark" nilai="6">&nbsp;6&nbsp;</button></div>
+                            <div class ="col-3"><button class="btn btn-info" nilai="*">&nbsp;X&nbsp;</button></div>
+                        </div>
+                        <div class="row py-1">
+                            <div class ="col-3"><button class="btn btn-dark" nilai="1">&nbsp;1&nbsp;</button></div>
+                            <div class ="col-3"><button class="btn btn-dark" nilai="2">&nbsp;2&nbsp;</button></div>
+                            <div class ="col-3"><button class="btn btn-dark" nilai="3">&nbsp;3&nbsp;</button></div>
+                            <div class ="col-3"><button class="btn btn-info" nilai="-">&nbsp;-&nbsp;&nbsp;</button></div>  
+                        </div>
+                        <div class="row last-row py-1 pb-3">
+                            <div class ="col-3"><button class="btn btn-info" nilai=".">&nbsp;.&nbsp;&nbsp;</button></div>
+                            <div class ="col-3"><button class="btn btn-dark btn-zero" nilai="0">&nbsp;0&nbsp;</button></div>
+                            <div class ="col-3"><button class="btn btn-success btn-hasil" nilai="=">&nbsp;=&nbsp;</button></div> 
+                            <div class ="col-3"><button class="btn btn-info" nilai="+">&nbsp;+&nbsp;</button></div>           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nama" style="text-align: center; padding-top: 20px;">
+                <br>
+                <a><b>Arnol Hadi Wijaya</b></a><br>
+                <a><b>c14190092</b></a><br>
+                <a><b>TekWeb-C</b></a><br><br>
+            </div>
+        </div>
+    </body>
+</html>
